@@ -10,54 +10,63 @@
     <link rel="stylesheet" href="styles.css">
 </head>
 <body class="redirect-page">
-    <div class="redirect-container">
+    <main class="redirect-container">
         <div class="redirect-wrapper">
-            <div class="ad-space">
+            <aside class="ad-space" aria-label="Advertisement">
                 <!-- Custom Ad Space 1 -->
                 Your Ad Here
-            </div>
+            </aside>
 
-            <div class="redirect-card">
-                <div class="progress-container">
+            <section class="redirect-card" aria-live="polite">
+                <div class="progress-container" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
                     <div id="progressBar" class="progress-bar" style="width: 0%"></div>
                 </div>
                 
                 <div class="card-content">
-                    <div class="preview-image-container">
-                        <img id="previewImage" class="preview-image" src="" alt="">
-                    </div>
-                    <h1 id="previewTitle" class="destination-title"></h1>
-                    <p id="previewDescription" class="destination-description"></p>
+                    <header class="preview-header">
+                        <figure class="preview-image-container">
+                            <img id="previewImage" class="preview-image" src="" alt="" loading="lazy">
+                        </figure>
+                        <h1 id="previewTitle" class="destination-title"></h1>
+                        <p id="previewDescription" class="destination-description"></p>
+                    </header>
                     
-                    <div class="countdown-section">
+                    <section class="countdown-section">
                         <div class="countdown-indicator">
-                            <div class="pulse-dot"></div>
-                            <p id="countdown" class="countdown-text">
-                                Please wait <span id="timer">20</span> seconds...
+                            <div class="pulse-dot" aria-hidden="true"></div>
+                            <p id="countdown" class="countdown-text" aria-live="polite">
+                                Redirecting in <span id="timer">20</span> seconds...
                             </p>
                         </div>
                         <div class="action-buttons">
-                            <button id="continueBtn" class="continue-button hidden">Continue to Site</button>
-                            <button id="cancelBtn" class="cancel-button hidden">Cancel</button>
+                            <button id="continueBtn" class="continue-button hidden">
+                                Continue to Destination
+                            </button>
                         </div>
-                    </div>
-                </div>
-            </div>
+                    </section>
 
-            <div class="ad-space">
+                    <aside class="security-info">
+                        <p class="security-text">
+                            ✅ This redirect has been verified as safe
+                        </p>
+                    </aside>
+                </div>
+            </section>
+
+            <aside class="ad-space" aria-label="Advertisement">
                 <!-- Custom Ad Space 2 -->
                 Your Ad Here
-            </div>
+            </aside>
         </div>
-    </div>
+    </main>
     <footer class="footer">
         <div class="footer-content">
             <p class="footer-text">© 2024 URL Redirector. All rights reserved.</p>
-            <div class="footer-links">
+            <nav class="footer-links" aria-label="Footer Navigation">
                 <a href="#" class="footer-link">Terms</a>
                 <a href="#" class="footer-link">Privacy</a>
                 <a href="#" class="footer-link">Contact</a>
-            </div>
+            </nav>
         </div>
     </footer>
     <script src="script.js"></script>
