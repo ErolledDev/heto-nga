@@ -44,6 +44,18 @@
                             <input type="url" id="image" placeholder="https://example.com/image.jpg">
                         </div>
                     </div>
+                    <div id="preview" class="preview-section hidden">
+                        <h2 class="preview-title">Preview</h2>
+                        <div class="preview-card">
+                            <div class="preview-image-container">
+                                <img id="previewImage" class="preview-image" src="" alt="" loading="lazy">
+                            </div>
+                            <div class="preview-content">
+                                <h3 id="previewTitle" class="preview-heading"></h3>
+                                <p id="previewDescription" class="preview-text"></p>
+                            </div>
+                        </div>
+                    </div>
                     <button type="submit" class="submit-button" aria-live="polite">
                         <span class="button-text">Generate Redirect URL</span>
                         <span class="button-loader hidden" aria-hidden="true"></span>
