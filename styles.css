@@ -1,0 +1,253 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+    line-height: 1.6;
+    background-color: #f5f5f5;
+    color: #333;
+}
+
+.container {
+    max-width: 800px;
+    margin: 2rem auto;
+    padding: 2rem;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.mode-switch {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 2rem;
+}
+
+.mode-button {
+    flex: 1;
+    padding: 0.75rem;
+    background: #f8f9fa;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.mode-button.active {
+    background: #007bff;
+    color: white;
+    border-color: #007bff;
+}
+
+.form-group {
+    margin-bottom: 1.5rem;
+}
+
+label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 500;
+}
+
+input, textarea {
+    width: 100%;
+    padding: 0.75rem;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 1rem;
+}
+
+textarea {
+    height: 100px;
+    resize: vertical;
+}
+
+button {
+    background-color: #007bff;
+    color: white;
+    padding: 0.75rem 1.5rem;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: background-color 0.2s;
+}
+
+button:hover {
+    background-color: #0056b3;
+}
+
+.hidden {
+    display: none;
+}
+
+.result {
+    margin-top: 2rem;
+    padding-top: 2rem;
+    border-top: 1px solid #ddd;
+}
+
+.url-container {
+    display: flex;
+    gap: 1rem;
+    margin-top: 1rem;
+}
+
+.url-container input {
+    flex: 1;
+}
+
+/* Redirect Page Styles */
+.redirect-container {
+    min-height: 100vh;
+    padding: 2rem;
+    background-color: #f8f9fa;
+}
+
+.redirect-wrapper {
+    max-width: 800px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
+
+.ad-space {
+    background: white;
+    padding: 1rem;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    min-height: 100px;
+}
+
+.redirect-card {
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+}
+
+.progress-container {
+    position: relative;
+    height: 4px;
+    background: #eee;
+}
+
+.progress-bar {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    background: #007bff;
+    transition: width 0.1s ease-out;
+}
+
+.card-content {
+    padding: 2rem;
+}
+
+.destination-title {
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+    color: #1a1a1a;
+}
+
+.destination-description {
+    color: #666;
+    margin-bottom: 1.5rem;
+}
+
+.destination-url {
+    background: #f8f9fa;
+    padding: 1rem;
+    border-radius: 8px;
+    word-break: break-all;
+    font-size: 0.9rem;
+    color: #666;
+}
+
+.countdown-section {
+    margin-top: 1.5rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid #eee;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+
+.countdown-indicator {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.pulse-dot {
+    width: 8px;
+    height: 8px;
+    background: #007bff;
+    border-radius: 50%;
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0% { opacity: 1; }
+    50% { opacity: 0.5; }
+    100% { opacity: 1; }
+}
+
+.countdown-text {
+    color: #666;
+}
+
+.action-buttons {
+    display: flex;
+    gap: 1rem;
+    margin-left: auto;
+}
+
+.cancel-button {
+    background: #f8f9fa;
+    color: #666;
+    border: 1px solid #ddd;
+}
+
+.cancel-button:hover {
+    background: #e9ecef;
+    color: #333;
+}
+
+@media (max-width: 640px) {
+    .redirect-container {
+        padding: 1rem;
+    }
+
+    .card-content {
+        padding: 1.5rem;
+    }
+
+    .countdown-section {
+        flex-direction: column;
+        align-items: stretch;
+        text-align: center;
+    }
+
+    .countdown-indicator {
+        justify-content: center;
+    }
+
+    .action-buttons {
+        margin-left: 0;
+        flex-direction: column;
+    }
+
+    button {
+        width: 100%;
+    }
+}
