@@ -3,9 +3,22 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Create custom URL redirects with preview cards">
-    <title>URL Redirector - Create Custom Redirects</title>
+    <meta name="description" content="Create beautiful preview cards and custom URL redirects with our free tool. Generate SEO-friendly link previews instantly.">
+    <meta name="keywords" content="URL redirector, link preview, URL shortener, custom redirects, preview cards">
+    <meta name="author" content="URL Redirector">
+    <meta name="robots" content="index, follow">
+    <meta property="og:title" content="URL Redirector - Create Custom Link Previews">
+    <meta property="og:description" content="Transform your links into beautiful preview cards. Create custom URL redirects with preview cards in seconds.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://urlredirector.com">
+    <meta property="og:image" content="https://images.pexels.com/photos/7376/startup-photos.jpg">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="URL Redirector - Create Custom Link Previews">
+    <meta name="twitter:description" content="Transform your links into beautiful preview cards. Create custom URL redirects with preview cards in seconds.">
+    <meta name="twitter:image" content="https://images.pexels.com/photos/7376/startup-photos.jpg">
+    <title>URL Redirector - Create Custom Link Previews & Redirects</title>
     <link rel="stylesheet" href="styles.css">
+    <link rel="canonical" href="https://urlredirector.com">
 </head>
 <body>
     <main class="hero">
@@ -44,6 +57,11 @@
                             <input type="url" id="image" placeholder="https://example.com/image.jpg">
                         </div>
                     </div>
+                  
+                    <button type="submit" class="submit-button" aria-live="polite">
+                        <span class="button-text">Generate Redirect URL</span>
+                        <span class="button-loader hidden" aria-hidden="true"></span>
+                    </button>
                     <div id="preview" class="preview-section hidden">
                         <h2 class="preview-title">Preview</h2>
                         <div class="preview-card">
@@ -56,10 +74,6 @@
                             </div>
                         </div>
                     </div>
-                    <button type="submit" class="submit-button" aria-live="polite">
-                        <span class="button-text">Generate Redirect URL</span>
-                        <span class="button-loader hidden" aria-hidden="true"></span>
-                    </button>
                 </form>
                 <section id="result" class="result hidden" aria-live="polite">
                     <h2>Your Redirect URL</h2>
@@ -75,13 +89,29 @@
         <div class="footer-content">
             <p class="footer-text">© 2024 URL Redirector. All rights reserved.</p>
             <nav class="footer-links" aria-label="Footer Navigation">
-                <a href="#" class="footer-link">Terms</a>
-                <a href="#" class="footer-link">Privacy</a>
-                <a href="#" class="footer-link">Contact</a>
+                <a href="/terms" class="footer-link">Terms</a>
+                <a href="/privacy" class="footer-link">Privacy</a>
+                <a href="/contact" class="footer-link">Contact</a>
             </nav>
         </div>
     </footer>
     <div id="toastContainer" class="toast-container" role="alert" aria-live="polite"></div>
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "WebApplication",
+        "name": "URL Redirector",
+        "description": "Create beautiful preview cards and custom URL redirects with our free tool. Generate SEO-friendly link previews instantly.",
+        "url": "https://urlredirector.com",
+        "applicationCategory": "UtilityApplication",
+        "operatingSystem": "All",
+        "offers": {
+            "@type": "Offer",
+            "price": "0",
+            "priceCurrency": "USD"
+        }
+    }
+    </script>
     <script src="script.js"></script>
 </body>
 </html>
