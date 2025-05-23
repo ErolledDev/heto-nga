@@ -8,41 +8,55 @@
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <div class="container">
-        <h1>Create URL Redirect</h1>
-        <div class="mode-switch">
-            <button id="autoMode" class="mode-button active">Auto Mode</button>
-            <button id="manualMode" class="mode-button">Manual Mode</button>
-        </div>
-        <form id="redirectForm" class="form">
-            <div class="form-group">
-                <label for="url">Destination URL:</label>
-                <input type="url" id="url" required placeholder="https://example.com">
+    <div class="hero">
+        <div class="container">
+            <div class="header">
+                <h1>Transform Your Links</h1>
+                <p class="subtitle">Create beautiful preview cards for your links in seconds</p>
             </div>
-            <div id="manualFields" class="hidden">
-                <div class="form-group">
-                    <label for="title">Title:</label>
-                    <input type="text" id="title" placeholder="Page Title">
+            <div class="card">
+                <div class="mode-switch">
+                    <button id="autoMode" class="mode-button active">
+                        <span class="mode-icon">⚡</span>
+                        Auto Mode
+                    </button>
+                    <button id="manualMode" class="mode-button">
+                        <span class="mode-icon">✏️</span>
+                        Manual Mode
+                    </button>
                 </div>
-                <div class="form-group">
-                    <label for="description">Description:</label>
-                    <textarea id="description" placeholder="Enter page description"></textarea>
+                <form id="redirectForm" class="form">
+                    <div class="form-group">
+                        <label for="url">Destination URL</label>
+                        <input type="url" id="url" required placeholder="https://example.com">
+                    </div>
+                    <div id="manualFields" class="hidden">
+                        <div class="form-group">
+                            <label for="title">Title</label>
+                            <input type="text" id="title" placeholder="Enter a catchy title">
+                        </div>
+                        <div class="form-group">
+                            <label for="description">Description</label>
+                            <textarea id="description" placeholder="Write a compelling description"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="image">Image URL</label>
+                            <input type="url" id="image" placeholder="https://example.com/image.jpg">
+                        </div>
+                    </div>
+                    <button type="submit" class="submit-button">Generate Redirect URL</button>
+                </form>
+                <div id="result" class="result hidden">
+                    <h2>Your Redirect URL</h2>
+                    <div class="url-container">
+                        <input type="text" id="generatedUrl" readonly>
+                        <button id="copyButton" class="copy-button">Copy URL</button>
+                    </div>
                 </div>
-                <div class="form-group">
-                    <label for="image">Image URL:</label>
-                    <input type="url" id="image" placeholder="https://example.com/image.jpg">
-                </div>
-            </div>
-            <button type="submit">Generate Redirect URL</button>
-        </form>
-        <div id="result" class="result hidden">
-            <h2>Your Redirect URL:</h2>
-            <div class="url-container">
-                <input type="text" id="generatedUrl" readonly>
-                <button id="copyButton">Copy URL</button>
             </div>
         </div>
     </div>
+    <div id="toastContainer" class="toast-container"></div>
     <script src="script.js"></script>
 </body>
 </html>

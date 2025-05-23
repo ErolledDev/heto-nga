@@ -1,20 +1,50 @@
+// Toast notification function
+function showToast(message, type = 'success') {
+    const container = document.getElementById('toastContainer');
+    const toast = document.createElement('div');
+    toast.className = `toast ${type}`;
+    
+    const icon = type === 'success' ? '✅' : '❌';
+    toast.innerHTML = `
+        <span class="toast-icon">${icon}</span>
+        <span class="toast-message">${message}</span>
+    `;
+    
+    container.appendChild(toast);
+    
+    // Remove toast after 3 seconds
+    setTimeout(() => {
+        toast.style.animation = 'fadeOut 0.3s ease-out forwards';
+        setTimeout(() => container.removeChild(toast), 300);
+    }, 3000);
+}
+
 async function scrapeMetadata(url) {
     try {
+        // Using allorigins.win as a more reliable CORS proxy
         const corsProxy = 'https://api.allorigins.win/raw?url=';
-        const response = await fetch(`${corsProxy}${encodeURIComponent(url)}`);
+        const response = await fetch(`${corsProxy}${encodeURIComponent(url)}`, {
+            headers: {
+                'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8',
+                'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36'
+            },
+            timeout: 15000 // Extended timeout to 15 seconds
+        });
         
         if (!response.ok) {
-            throw new Error('Failed to fetch URL. Please use manual mode instead.');
+            throw new Error(`Failed to fetch the webpage (Status: ${response.status}). Please try manual mode.`);
         }
 
         const html = await response.text();
         const parser = new DOMParser();
         const doc = parser.parseFromString(html, 'text/html');
 
+        // More robust metadata extraction
         const title = 
             doc.querySelector('meta[property="og:title"]')?.getAttribute('content') ||
             doc.querySelector('meta[name="twitter:title"]')?.getAttribute('content') ||
-            doc.querySelector('title')?.textContent ||
+            doc.querySelector('title')?.textContent?.trim() ||
+            url.split('/').pop() ||
             'No title available';
 
         const description = 
@@ -27,6 +57,7 @@ async function scrapeMetadata(url) {
             doc.querySelector('meta[property="og:image"]')?.getAttribute('content') ||
             doc.querySelector('meta[property="twitter:image"]')?.getAttribute('content') ||
             doc.querySelector('meta[property="twitter:image:src"]')?.getAttribute('content') ||
+            doc.querySelector('link[rel="image_src"]')?.getAttribute('href') ||
             '';
 
         return { 
@@ -35,7 +66,8 @@ async function scrapeMetadata(url) {
             image: image.trim() 
         };
     } catch (error) {
-        throw new Error('Failed to fetch metadata. Please use manual mode instead.');
+        console.error('Metadata fetch error:', error);
+        throw new Error('Unable to fetch webpage metadata automatically. Please switch to manual mode and enter the details yourself.');
     }
 }
 
@@ -55,8 +87,19 @@ if (window.location.pathname.includes('u.html')) {
     document.title = title;
 
     // Set preview content
-    document.getElementById('previewTitle').textContent = title;
-    document.getElementById('previewDescription').textContent = description;
+    document.getElementById('previewTitle').textContent = decodeURIComponent(title);
+    document.getElementById('previewDescription').textContent = decodeURIComponent(description);
+    const previewImage = document.getElementById('previewImage');
+    if (image) {
+        previewImage.src = decodeURIComponent(image);
+        previewImage.style.display = 'block';
+        // Add error handling for image loading
+        previewImage.onerror = () => {
+            previewImage.style.display = 'none';
+        };
+    } else {
+        previewImage.style.display = 'none';
+    }
 
     let timeLeft = 20;
     const progressBar = document.getElementById('progressBar');
@@ -79,7 +122,7 @@ if (window.location.pathname.includes('u.html')) {
     }, 1000);
 
     continueBtn.addEventListener('click', () => {
-        window.location.href = url;
+        window.location.href = decodeURIComponent(url);
     });
 
     cancelBtn.addEventListener('click', () => {
@@ -109,6 +152,7 @@ if (window.location.pathname.includes('u.html')) {
         titleInput.required = false;
         descriptionInput.required = false;
         imageInput.required = false;
+        showToast('Switched to Auto Mode');
     });
 
     manualMode.addEventListener('click', () => {
@@ -119,6 +163,7 @@ if (window.location.pathname.includes('u.html')) {
         titleInput.required = true;
         descriptionInput.required = true;
         imageInput.required = true;
+        showToast('Switched to Manual Mode');
     });
 
     urlInput.addEventListener('paste', async (e) => {
@@ -129,8 +174,11 @@ if (window.location.pathname.includes('u.html')) {
                 titleInput.value = metadata.title;
                 descriptionInput.value = metadata.description;
                 imageInput.value = metadata.image;
+                showToast('Metadata fetched successfully');
             } catch (error) {
                 console.error('Failed to fetch metadata:', error);
+                manualMode.click(); // Switch to manual mode on error
+                showToast(error.message, 'error');
             }
         }
     });
@@ -146,8 +194,9 @@ if (window.location.pathname.includes('u.html')) {
                 title = metadata.title;
                 description = metadata.description;
                 image = metadata.image;
+                showToast('Metadata fetched successfully');
             } catch (error) {
-                alert(error.message);
+                showToast(error.message, 'error');
                 return;
             }
         } else {
@@ -165,11 +214,13 @@ if (window.location.pathname.includes('u.html')) {
         
         generatedUrl.value = redirectUrl;
         result.classList.remove('hidden');
+        showToast('Redirect URL generated successfully');
     });
 
     copyButton.addEventListener('click', () => {
         generatedUrl.select();
         document.execCommand('copy');
+        showToast('URL copied to clipboard');
         copyButton.textContent = 'Copied!';
         setTimeout(() => {
             copyButton.textContent = 'Copy URL';
