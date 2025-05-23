@@ -21,14 +21,13 @@ function showToast(message, type = 'success') {
 
 async function scrapeMetadata(url) {
     try {
-        // Using allorigins.win as a more reliable CORS proxy
         const corsProxy = 'https://api.allorigins.win/raw?url=';
         const response = await fetch(`${corsProxy}${encodeURIComponent(url)}`, {
             headers: {
                 'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8',
                 'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36'
             },
-            timeout: 15000 // Extended timeout to 15 seconds
+            timeout: 15000
         });
         
         if (!response.ok) {
@@ -39,7 +38,6 @@ async function scrapeMetadata(url) {
         const parser = new DOMParser();
         const doc = parser.parseFromString(html, 'text/html');
 
-        // More robust metadata extraction
         const title = 
             doc.querySelector('meta[property="og:title"]')?.getAttribute('content') ||
             doc.querySelector('meta[name="twitter:title"]')?.getAttribute('content') ||
@@ -71,7 +69,6 @@ async function scrapeMetadata(url) {
     }
 }
 
-// Check if we're on the redirect page
 if (window.location.pathname.includes('u.html')) {
     // Redirect page logic
     const params = new URLSearchParams(window.location.search);
@@ -80,20 +77,17 @@ if (window.location.pathname.includes('u.html')) {
     const description = params.get('description');
     const image = params.get('image');
 
-    // Set meta tags
     document.getElementById('metaTitle').content = title;
     document.getElementById('metaDescription').content = description;
     document.getElementById('metaImage').content = image;
     document.title = title;
 
-    // Set preview content
     document.getElementById('previewTitle').textContent = decodeURIComponent(title);
     document.getElementById('previewDescription').textContent = decodeURIComponent(description);
     const previewImage = document.getElementById('previewImage');
     if (image) {
         previewImage.src = decodeURIComponent(image);
         previewImage.style.display = 'block';
-        // Add error handling for image loading
         previewImage.onerror = () => {
             previewImage.style.display = 'none';
         };
@@ -141,6 +135,9 @@ if (window.location.pathname.includes('u.html')) {
     const titleInput = document.getElementById('title');
     const descriptionInput = document.getElementById('description');
     const imageInput = document.getElementById('image');
+    const submitButton = form.querySelector('.submit-button');
+    const buttonText = submitButton.querySelector('.button-text');
+    const buttonLoader = submitButton.querySelector('.button-loader');
 
     let isAutoMode = true;
 
@@ -177,7 +174,7 @@ if (window.location.pathname.includes('u.html')) {
                 showToast('Metadata fetched successfully');
             } catch (error) {
                 console.error('Failed to fetch metadata:', error);
-                manualMode.click(); // Switch to manual mode on error
+                manualMode.click();
                 showToast(error.message, 'error');
             }
         }
@@ -186,35 +183,44 @@ if (window.location.pathname.includes('u.html')) {
     form.addEventListener('submit', async (e) => {
         e.preventDefault();
         
+        // Show loading state
+        buttonText.classList.add('hidden');
+        buttonLoader.classList.remove('hidden');
+        submitButton.disabled = true;
+        
         let title, description, image;
 
-        if (isAutoMode) {
-            try {
+        try {
+            if (isAutoMode) {
                 const metadata = await scrapeMetadata(urlInput.value);
                 title = metadata.title;
                 description = metadata.description;
                 image = metadata.image;
                 showToast('Metadata fetched successfully');
-            } catch (error) {
-                showToast(error.message, 'error');
-                return;
+            } else {
+                title = titleInput.value;
+                description = descriptionInput.value;
+                image = imageInput.value;
             }
-        } else {
-            title = titleInput.value;
-            description = descriptionInput.value;
-            image = imageInput.value;
+
+            const url = encodeURIComponent(urlInput.value);
+            title = encodeURIComponent(title);
+            description = encodeURIComponent(description);
+            image = encodeURIComponent(image);
+
+            const redirectUrl = `${window.location.origin}/u.html?url=${url}&title=${title}&description=${description}&image=${image}`;
+            
+            generatedUrl.value = redirectUrl;
+            result.classList.remove('hidden');
+            showToast('Redirect URL generated successfully');
+        } catch (error) {
+            showToast(error.message, 'error');
+        } finally {
+            // Hide loading state
+            buttonText.classList.remove('hidden');
+            buttonLoader.classList.add('hidden');
+            submitButton.disabled = false;
         }
-
-        const url = encodeURIComponent(urlInput.value);
-        title = encodeURIComponent(title);
-        description = encodeURIComponent(description);
-        image = encodeURIComponent(image);
-
-        const redirectUrl = `${window.location.origin}/u.html?url=${url}&title=${title}&description=${description}&image=${image}`;
-        
-        generatedUrl.value = redirectUrl;
-        result.classList.remove('hidden');
-        showToast('Redirect URL generated successfully');
     });
 
     copyButton.addEventListener('click', () => {
