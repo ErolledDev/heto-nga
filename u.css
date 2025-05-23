@@ -21,6 +21,12 @@
     --linkedin: #0a66c2;
     --whatsapp: #25d366;
     --copy: #6366f1;
+    --telegram: #26A5E4;
+    --bookmark: #475569;
+    --email: #ea4335;
+    --stripe-1: #ef4444;
+    --stripe-2: #3b82f6;
+    --stripe-3: #22c55e;
 }
 
 body {
@@ -63,15 +69,35 @@ body {
 
 .progress-container {
     width: 100%;
-    height: 6px;
+    height: 12px;
     background: var(--accent);
     overflow: hidden;
+    position: relative;
 }
 
 .progress-bar {
     height: 100%;
-    background: var(--primary);
-    transition: width 1s linear;
+    width: 100%;
+    background: repeating-linear-gradient(
+        45deg,
+        var(--stripe-1) 0%,
+        var(--stripe-1) 33.33%,
+        var(--stripe-2) 33.33%,
+        var(--stripe-2) 66.66%,
+        var(--stripe-3) 66.66%,
+        var(--stripe-3) 100%
+    );
+    background-size: 30px 30px;
+    animation: barberpole 0.8s linear infinite;
+}
+
+@keyframes barberpole {
+    from {
+        background-position: 0 0;
+    }
+    to {
+        background-position: 30px 0;
+    }
 }
 
 .card-content {
@@ -195,6 +221,10 @@ body {
     cursor: pointer;
     transition: all 0.3s ease;
     font-size: 0.9rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
 }
 
 .share-button:hover {
@@ -216,6 +246,18 @@ body {
 
 .share-button.whatsapp {
     background-color: var(--whatsapp);
+}
+
+.share-button.telegram {
+    background-color: var(--telegram);
+}
+
+.share-button.email {
+    background-color: var(--email);
+}
+
+.share-button.bookmark {
+    background-color: var(--bookmark);
 }
 
 .share-button.copy {
