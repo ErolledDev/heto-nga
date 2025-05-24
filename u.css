@@ -33,10 +33,7 @@ body {
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
     line-height: 1.6;
     color: var(--text);
-    background: 
-        radial-gradient(circle at top right, rgba(219, 234, 254, 0.8) 0%, transparent 60%),
-        radial-gradient(circle at bottom left, rgba(191, 219, 254, 0.8) 0%, transparent 60%),
-        var(--gradient);
+    background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
     min-height: 100vh;
 }
 
@@ -48,6 +45,9 @@ body {
     margin-bottom: 2rem;
     border-bottom: 1px solid rgba(255, 255, 255, 0.2);
     backdrop-filter: blur(10px);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
 }
 
 .nav-links {
@@ -79,32 +79,271 @@ body {
     -webkit-text-fill-color: transparent;
 }
 
+.nav-actions {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+}
+
+/* Hamburger Menu */
+.hamburger {
+    display: none;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 24px;
+    height: 20px;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    z-index: 1100;
+}
+
+.hamburger span {
+    width: 100%;
+    height: 2px;
+    background: var(--text);
+    transition: all 0.3s ease;
+}
+
+.hamburger.active span:nth-child(1) {
+    transform: translateY(9px) rotate(45deg);
+}
+
+.hamburger.active span:nth-child(2) {
+    opacity: 0;
+}
+
+.hamburger.active span:nth-child(3) {
+    transform: translateY(-9px) rotate(-45deg);
+}
+
+/* Side Navigation */
+.side-nav {
+    position: fixed;
+    top: 0;
+    right: -300px;
+    width: 300px;
+    height: 100vh;
+    background: rgba(255, 255, 255, 0.98);
+    backdrop-filter: blur(10px);
+    box-shadow: var(--shadow-lg);
+    padding: 2rem;
+    transition: right 0.3s ease;
+    z-index: 1050;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.side-nav.active {
+    right: 0;
+}
+
+.side-nav-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+
+.side-nav-title {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--text);
+}
+
+.side-nav-close {
+    background: transparent;
+    border: none;
+    color: var(--text-light);
+    cursor: pointer;
+    font-size: 1.5rem;
+    padding: 0.5rem;
+    transition: color 0.3s ease;
+}
+
+.side-nav-close:hover {
+    color: var(--text);
+}
+
+.side-nav-links {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
 .nav-link {
-    background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
-    color: white;
     text-decoration: none;
     font-weight: 600;
     padding: 0.75rem 1.5rem;
     border-radius: 12px;
     transition: all 0.3s ease;
-    display: inline-flex;
+    display: flex;
     align-items: center;
     gap: 0.5rem;
     font-size: 1rem;
+}
+
+.nav-icon {
+    font-size: 1.1em;
+}
+
+.nav-link.primary {
+    background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+    color: white;
     box-shadow: 0 2px 4px rgba(59, 130, 246, 0.2);
     border: 1px solid rgba(255, 255, 255, 0.2);
 }
 
-.nav-link:hover {
-    transform: translateY(-1px);
-    box-shadow: 0 4px 8px rgba(59, 130, 246, 0.3);
+.nav-link.secondary {
+    color: var(--text);
+    background: var(--accent);
+    border: 1px solid var(--border);
 }
 
-/* Redirect Page Styles */
+.nav-link:hover {
+    transform: translateY(-1px);
+    box-shadow: var(--shadow);
+}
+
+/* Overlay */
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(4px);
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+    z-index: 1040;
+}
+
+.overlay.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+/* Progress Steps */
+.progress-wrapper {
+    padding: 1.5rem;
+    background: var(--accent);
+    border-bottom: 1px solid var(--border);
+}
+
+.progress-steps {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 1rem;
+    position: relative;
+    max-width: 600px;
+    margin: 1rem auto 0;
+}
+
+.progress-steps::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: var(--border);
+    transform: translateY(-50%);
+    z-index: 1;
+}
+
+.progress-step {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+    background: var(--accent);
+    padding: 0 1rem;
+}
+
+.step-indicator {
+    width: 2.5rem;
+    height: 2.5rem;
+    background: white;
+    border: 2px solid var(--border);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 600;
+    color: var(--text-light);
+    transition: all 0.3s ease;
+    font-size: 1rem;
+}
+
+.step-label {
+    font-size: 0.9rem;
+    color: var(--text-light);
+    font-weight: 500;
+    white-space: nowrap;
+}
+
+.progress-step.active .step-indicator {
+    background: var(--primary);
+    border-color: var(--primary);
+    color: white;
+    box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.2);
+}
+
+.progress-step.active .step-label {
+    color: var(--primary);
+    font-weight: 600;
+}
+
+.progress-step.completed .step-indicator {
+    background: var(--primary);
+    border-color: var(--primary);
+    color: white;
+}
+
+/* Progress Bar */
+.progress-container {
+    width: 100%;
+    height: 10px;
+    background: white;
+    overflow: hidden;
+    border-radius: 3px;
+    position: relative;
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.progress-bar {
+    height: 100%;
+    width: 100%;
+    background: linear-gradient(90deg, 
+        var(--stripe-1) 0%, 
+        var(--stripe-2) 50%,
+        var(--stripe-3) 100%
+    );
+    background-size: 200% 100%;
+    animation: gradient 2s linear infinite;
+}
+
+@keyframes gradient {
+    0% { background-position: 200% 0; }
+    100% { background-position: -200% 0; }
+}
+
+/* Redirect Page Layout */
 .redirect-page {
     min-height: 100vh;
     display: flex;
     flex-direction: column;
+    background: 
+        radial-gradient(circle at top right, rgba(219, 234, 254, 0.8) 0%, transparent 60%),
+        radial-gradient(circle at bottom left, rgba(191, 219, 254, 0.8) 0%, transparent 60%),
+        var(--gradient);
 }
 
 .redirect-container {
@@ -130,31 +369,6 @@ body {
     animation: fadeInUp 0.8s ease-out;
     border: 1px solid rgba(255, 255, 255, 0.3);
     backdrop-filter: blur(10px);
-}
-
-.progress-container {
-    width: 100%;
-    height: 6px;
-    background: var(--accent);
-    overflow: hidden;
-    position: relative;
-}
-
-.progress-bar {
-    height: 100%;
-    width: 100%;
-    background: linear-gradient(90deg, 
-        var(--stripe-1) 0%, 
-        var(--stripe-2) 50%,
-        var(--stripe-3) 100%
-    );
-    background-size: 200% 100%;
-    animation: gradient 2s linear infinite;
-}
-
-@keyframes gradient {
-    0% { background-position: 200% 0; }
-    100% { background-position: -200% 0; }
 }
 
 .card-content {
@@ -249,7 +463,7 @@ body {
     box-shadow: var(--shadow);
 }
 
-/* Share Section Styles */
+/* Share Section */
 .share-section {
     margin: 2rem 0;
     padding: 1.5rem;
@@ -326,7 +540,7 @@ body {
     backdrop-filter: blur(10px);
     box-shadow: var(--shadow);
     position: sticky;
-    top: 2rem;
+    top: 6rem;
 }
 
 .ad-space h2 {
@@ -336,12 +550,13 @@ body {
     font-weight: 700;
 }
 
-/* Footer Styles */
+/* Footer */
 .footer {
     background: rgba(255, 255, 255, 0.95);
     padding: 1.25rem;
     border-top: 1px solid var(--border);
     margin-top: 2rem;
+    backdrop-filter: blur(10px);
 }
 
 .footer-content {
@@ -404,6 +619,18 @@ body {
 }
 
 @media (max-width: 768px) {
+    .nav-actions {
+        display: none;
+    }
+
+    .hamburger {
+        display: flex;
+    }
+
+    .nav-brand {
+        font-size: 1.5rem;
+    }
+
     .redirect-wrapper {
         grid-template-columns: 1fr;
     }
@@ -443,5 +670,9 @@ body {
         flex-direction: column;
         text-align: center;
         gap: 1rem;
+    }
+
+    .progress-steps {
+        display: none;
     }
 }

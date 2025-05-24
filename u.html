@@ -64,6 +64,27 @@
                 alert('Press ' + (navigator.userAgent.toLowerCase().indexOf('mac') != -1 ? 'Command/Cmd' : 'CTRL') + ' + D to bookmark this page.');
             }
         }
+
+        function toggleMenu() {
+            const hamburger = document.querySelector('.hamburger');
+            const sideNav = document.querySelector('.side-nav');
+            const overlay = document.querySelector('.overlay');
+            
+            hamburger.classList.toggle('active');
+            sideNav.classList.toggle('active');
+            overlay.classList.toggle('active');
+            
+            // Toggle body scroll
+            document.body.style.overflow = sideNav.classList.contains('active') ? 'hidden' : '';
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            // Close menu when clicking overlay
+            document.querySelector('.overlay').addEventListener('click', toggleMenu);
+            
+            // Close menu when clicking close button
+            document.querySelector('.side-nav-close').addEventListener('click', toggleMenu);
+        });
     </script>
 </head>
 <body class="redirect-page">
@@ -72,11 +93,42 @@
             <a href="/" class="nav-brand">
                 <span>⚡ URL Redirector</span>
             </a>
-            <a href="index.html" class="nav-link">
-                ✨ Create
-            </a>
+            <button class="hamburger" onclick="toggleMenu()" aria-label="Toggle menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
         </nav>
     </header>
+
+    <!-- Side Navigation -->
+    <div class="side-nav">
+        <div class="side-nav-header">
+            <span class="side-nav-title">Menu</span>
+            <button class="side-nav-close" aria-label="Close menu">×</button>
+        </div>
+        <div class="side-nav-links">
+            <a href="/" class="nav-link secondary">
+                <span class="nav-icon">🏠</span>
+                Home
+            </a>
+            <a href="/index.html" class="nav-link primary">
+                <span class="nav-icon">✨</span>
+                Create New
+            </a>
+            <a href="/about" class="nav-link secondary">
+                <span class="nav-icon">ℹ️</span>
+                About
+            </a>
+            <a href="/contact" class="nav-link secondary">
+                <span class="nav-icon">📧</span>
+                Contact
+            </a>
+        </div>
+    </div>
+
+    <!-- Overlay -->
+    <div class="overlay"></div>
 
     <main class="redirect-container">
         <div class="redirect-wrapper">
@@ -86,8 +138,24 @@
             </aside>
 
             <section class="redirect-card" aria-live="polite">
-                <div class="progress-container" role="progressbar" aria-valuemin="0" aria-valuemax="100">
-                    <div id="progressBar" class="progress-bar"></div>
+                <div class="progress-wrapper">
+                    <div class="progress-container" role="progressbar" aria-valuemin="0" aria-valuemax="100">
+                        <div id="progressBar" class="progress-bar"></div>
+                    </div>
+                    <div class="progress-steps">
+                        <div class="progress-step active">
+                            <div class="step-indicator">1</div>
+                            <span class="step-label">Loading</span>
+                        </div>
+                        <div class="progress-step">
+                            <div class="step-indicator">2</div>
+                            <span class="step-label">Verifying</span>
+                        </div>
+                        <div class="progress-step">
+                            <div class="step-indicator">3</div>
+                            <span class="step-label">Redirecting</span>
+                        </div>
+                    </div>
                 </div>
                 
                 <div class="card-content">
