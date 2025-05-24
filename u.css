@@ -27,6 +27,8 @@
     --stripe-1: #ef4444;
     --stripe-2: #3b82f6;
     --stripe-3: #22c55e;
+    --step-yellow: #fbbf24;
+    --step-green: #22c55e;
 }
 
 body {
@@ -81,8 +83,37 @@ body {
 
 .nav-actions {
     display: flex;
-    gap: 1rem;
+    gap: 1.5rem;
     align-items: center;
+}
+
+.nav-link {
+    text-decoration: none;
+    font-weight: 600;
+    padding: 0.75rem 1.25rem;
+    border-radius: 12px;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 1rem;
+    color: var(--text);
+}
+
+.nav-link:hover {
+    transform: translateY(-1px);
+    background: var(--accent);
+}
+
+.nav-link.primary {
+    background: var(--primary);
+    color: white;
+}
+
+.nav-link.primary:hover {
+    background: var(--primary-dark);
+    transform: translateY(-1px);
+    box-shadow: var(--shadow);
 }
 
 /* Hamburger Menu */
@@ -173,38 +204,9 @@ body {
     gap: 1rem;
 }
 
-.nav-link {
-    text-decoration: none;
-    font-weight: 600;
-    padding: 0.75rem 1.5rem;
-    border-radius: 12px;
-    transition: all 0.3s ease;
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    font-size: 1rem;
-}
-
-.nav-icon {
-    font-size: 1.1em;
-}
-
-.nav-link.primary {
-    background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
-    color: white;
-    box-shadow: 0 2px 4px rgba(59, 130, 246, 0.2);
-    border: 1px solid rgba(255, 255, 255, 0.2);
-}
-
-.nav-link.secondary {
-    color: var(--text);
-    background: var(--accent);
-    border: 1px solid var(--border);
-}
-
-.nav-link:hover {
-    transform: translateY(-1px);
-    box-shadow: var(--shadow);
+.side-nav .nav-link {
+    padding: 1rem 1.25rem;
+    width: 100%;
 }
 
 /* Overlay */
@@ -300,10 +302,22 @@ body {
     font-weight: 600;
 }
 
-.progress-step.completed .step-indicator {
-    background: var(--primary);
-    border-color: var(--primary);
-    color: white;
+.progress-step[data-step="2"].active .step-indicator {
+    background: var(--step-yellow);
+    border-color: var(--step-yellow);
+}
+
+.progress-step[data-step="2"].active .step-label {
+    color: var(--step-yellow);
+}
+
+.progress-step[data-step="3"].active .step-indicator {
+    background: var(--step-green);
+    border-color: var(--step-green);
+}
+
+.progress-step[data-step="3"].active .step-label {
+    color: var(--step-green);
 }
 
 /* Progress Bar */
@@ -631,6 +645,15 @@ body {
         font-size: 1.5rem;
     }
 
+    .side-nav .nav-link {
+        font-size: 1.1rem;
+        padding: 1rem 1.25rem;
+    }
+
+    .side-nav .nav-link.primary {
+        margin-top: 1rem;
+    }
+
     .redirect-wrapper {
         grid-template-columns: 1fr;
     }
@@ -673,6 +696,24 @@ body {
     }
 
     .progress-steps {
-        display: none;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-around;
+        padding: 1rem 0;
+    }
+
+    .progress-step {
+        flex: 1;
+        padding: 0 0.5rem;
+    }
+
+    .step-indicator {
+        width: 2rem;
+        height: 2rem;
+        font-size: 0.9rem;
+    }
+
+    .step-label {
+        font-size: 0.8rem;
     }
 }

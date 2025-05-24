@@ -74,16 +74,60 @@
             sideNav.classList.toggle('active');
             overlay.classList.toggle('active');
             
-            // Toggle body scroll
             document.body.style.overflow = sideNav.classList.contains('active') ? 'hidden' : '';
         }
 
         document.addEventListener('DOMContentLoaded', () => {
-            // Close menu when clicking overlay
             document.querySelector('.overlay').addEventListener('click', toggleMenu);
-            
-            // Close menu when clicking close button
             document.querySelector('.side-nav-close').addEventListener('click', toggleMenu);
+
+            document.querySelectorAll('.nav-link').forEach(link => {
+                link.addEventListener('click', () => {
+                    if (window.innerWidth <= 768) {
+                        toggleMenu();
+                    }
+                });
+            });
+
+            window.addEventListener('resize', () => {
+                if (window.innerWidth > 768) {
+                    const sideNav = document.querySelector('.side-nav');
+                    const overlay = document.querySelector('.overlay');
+                    const hamburger = document.querySelector('.hamburger');
+                    
+                    sideNav.classList.remove('active');
+                    overlay.classList.remove('active');
+                    hamburger.classList.remove('active');
+                    document.body.style.overflow = '';
+                }
+            });
+
+            // Progress steps logic
+            let timeLeft = 20;
+            const progressBar = document.getElementById('progressBar');
+            const timer = document.getElementById('timer');
+            const continueBtn = document.getElementById('continueBtn');
+            const countdown = document.getElementById('countdown');
+            const step1 = document.querySelector('[data-step="1"]');
+            const step2 = document.querySelector('[data-step="2"]');
+            const step3 = document.querySelector('[data-step="3"]');
+
+            const countdownInterval = setInterval(() => {
+                timeLeft--;
+                timer.textContent = timeLeft;
+                progressBar.style.width = ((20 - timeLeft) / 20 * 100) + '%';
+
+                if (timeLeft <= 15) {
+                    step2.classList.add('active');
+                }
+
+                if (timeLeft <= 0) {
+                    clearInterval(countdownInterval);
+                    countdown.textContent = 'Ready to proceed!';
+                    continueBtn.classList.remove('hidden');
+                    step3.classList.add('active');
+                }
+            }, 1000);
         });
     </script>
 </head>
@@ -93,6 +137,12 @@
             <a href="/" class="nav-brand">
                 <span>⚡ URL Redirector</span>
             </a>
+            <div class="nav-actions">
+                <a href="/" class="nav-link">Home</a>
+                <a href="/about" class="nav-link">About</a>
+                <a href="/contact" class="nav-link">Contact</a>
+                <a href="/index.html" class="nav-link primary">Create New</a>
+            </div>
             <button class="hamburger" onclick="toggleMenu()" aria-label="Toggle menu">
                 <span></span>
                 <span></span>
@@ -101,33 +151,31 @@
         </nav>
     </header>
 
-    <!-- Side Navigation -->
     <div class="side-nav">
         <div class="side-nav-header">
             <span class="side-nav-title">Menu</span>
             <button class="side-nav-close" aria-label="Close menu">×</button>
         </div>
         <div class="side-nav-links">
-            <a href="/" class="nav-link secondary">
+            <a href="/" class="nav-link">
                 <span class="nav-icon">🏠</span>
                 Home
+            </a>
+            <a href="/about" class="nav-link">
+                <span class="nav-icon">ℹ️</span>
+                About
+            </a>
+            <a href="/contact" class="nav-link">
+                <span class="nav-icon">📧</span>
+                Contact
             </a>
             <a href="/index.html" class="nav-link primary">
                 <span class="nav-icon">✨</span>
                 Create New
             </a>
-            <a href="/about" class="nav-link secondary">
-                <span class="nav-icon">ℹ️</span>
-                About
-            </a>
-            <a href="/contact" class="nav-link secondary">
-                <span class="nav-icon">📧</span>
-                Contact
-            </a>
         </div>
     </div>
 
-    <!-- Overlay -->
     <div class="overlay"></div>
 
     <main class="redirect-container">
@@ -143,15 +191,15 @@
                         <div id="progressBar" class="progress-bar"></div>
                     </div>
                     <div class="progress-steps">
-                        <div class="progress-step active">
+                        <div class="progress-step active" data-step="1">
                             <div class="step-indicator">1</div>
                             <span class="step-label">Loading</span>
                         </div>
-                        <div class="progress-step">
+                        <div class="progress-step" data-step="2">
                             <div class="step-indicator">2</div>
                             <span class="step-label">Verifying</span>
                         </div>
-                        <div class="progress-step">
+                        <div class="progress-step" data-step="3">
                             <div class="step-indicator">3</div>
                             <span class="step-label">Redirecting</span>
                         </div>
