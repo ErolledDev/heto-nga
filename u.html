@@ -48,19 +48,19 @@
         function copyCurrentUrl() {
             navigator.clipboard.writeText(window.location.href).then(() => {
                 const copyButton = document.getElementById('copyLinkButton');
-                copyButton.textContent = 'Copied!';
+                copyButton.textContent = '✓ Copied!';
                 setTimeout(() => {
-                    copyButton.textContent = 'Copy Link';
+                    copyButton.textContent = '📋 Copy Link';
                 }, 2000);
             });
         }
 
         function bookmarkPage() {
-            if (window.sidebar && window.sidebar.addPanel) { // Firefox
+            if (window.sidebar && window.sidebar.addPanel) {
                 window.sidebar.addPanel(document.title, window.location.href, '');
-            } else if (window.external && ('AddFavorite' in window.external)) { // IE
+            } else if (window.external && ('AddFavorite' in window.external)) {
                 window.external.AddFavorite(window.location.href, document.title);
-            } else { // Chrome, Safari, etc.
+            } else {
                 alert('Press ' + (navigator.userAgent.toLowerCase().indexOf('mac') != -1 ? 'Command/Cmd' : 'CTRL') + ' + D to bookmark this page.');
             }
         }
@@ -69,21 +69,25 @@
 <body class="redirect-page">
     <header class="header">
         <nav class="nav-links">
-            <a href="/" class="nav-brand">URL Redirector</a>
-            <a href="index.html" class="nav-link">✨ Create your link</a>
+            <a href="/" class="nav-brand">
+                <span>⚡ URL Redirector</span>
+            </a>
+            <a href="index.html" class="nav-link">
+                ✨ Create
+            </a>
         </nav>
     </header>
+
     <main class="redirect-container">
         <div class="redirect-wrapper">
-            <aside class="ad-space" aria-label="Advertisement">
+            <aside class="ad-space">
                 <h2>Advertisement</h2>
-                <!-- Custom Ad Space 1 -->
-                Your Ad Here
+                <div>Your Ad Here</div>
             </aside>
 
             <section class="redirect-card" aria-live="polite">
-                <div class="progress-container" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
-                    <div id="progressBar" class="progress-bar" style="width: 0%"></div>
+                <div class="progress-container" role="progressbar" aria-valuemin="0" aria-valuemax="100">
+                    <div id="progressBar" class="progress-bar"></div>
                 </div>
                 
                 <div class="card-content">
@@ -98,66 +102,66 @@
                     <section class="countdown-section">
                         <div class="countdown-indicator">
                             <div class="pulse-dot" aria-hidden="true"></div>
-                            <p id="countdown" class="countdown-text" aria-live="polite">
+                            <p id="countdown" class="countdown-text">
                                 Redirecting in <span id="timer">20</span> seconds...
                             </p>
                         </div>
                         <div class="action-buttons">
                             <button id="continueBtn" class="continue-button hidden">
-                                Continue
+                                Continue now →
                             </button>
                         </div>
                     </section>
 
                     <div class="share-section">
-                        <p class="share-text">Share this link:</p>
+                        <p class="share-text">Share via</p>
                         <div class="share-buttons">
-                            <button onclick="shareUrl('facebook')" class="share-button facebook" aria-label="Share on Facebook">
-                                Share on Facebook
+                            <button onclick="shareUrl('facebook')" class="share-button facebook">
+                                📱 Facebook
                             </button>
-                            <button onclick="shareUrl('twitter')" class="share-button twitter" aria-label="Share on Twitter">
-                                Share on Twitter
+                            <button onclick="shareUrl('twitter')" class="share-button twitter">
+                                🐦 Twitter
                             </button>
-                            <button onclick="shareUrl('linkedin')" class="share-button linkedin" aria-label="Share on LinkedIn">
-                                Share on LinkedIn
+                            <button onclick="shareUrl('linkedin')" class="share-button linkedin">
+                                💼 LinkedIn
                             </button>
-                            <button onclick="shareUrl('whatsapp')" class="share-button whatsapp" aria-label="Share on WhatsApp">
-                                Share on WhatsApp
+                            <button onclick="shareUrl('whatsapp')" class="share-button whatsapp">
+                                💬 WhatsApp
                             </button>
-                            <button onclick="shareUrl('telegram')" class="share-button telegram" aria-label="Share on Telegram">
-                                Share on Telegram
+                            <button onclick="shareUrl('telegram')" class="share-button telegram">
+                                ✈️ Telegram
                             </button>
-                            <button onclick="shareUrl('email')" class="share-button email" aria-label="Share via Email">
-                                Share via Email
+                            <button onclick="shareUrl('email')" class="share-button email">
+                                ✉️ Email
                             </button>
-                            <button onclick="bookmarkPage()" class="share-button bookmark" aria-label="Bookmark this page">
-                                Bookmark Page
+                            <button onclick="bookmarkPage()" class="share-button bookmark">
+                                🔖 Bookmark
                             </button>
-                            <button onclick="copyCurrentUrl()" id="copyLinkButton" class="share-button copy" aria-label="Copy link to clipboard">
-                                Copy Link
+                            <button onclick="copyCurrentUrl()" id="copyLinkButton" class="share-button copy">
+                                📋 Copy Link
                             </button>
                         </div>
                     </div>
 
                     <aside class="security-info">
                         <p class="security-text">
-                            ✅ This redirect has been verified as safe
+                            🛡️ This redirect has been verified as safe
                         </p>
                     </aside>
                 </div>
             </section>
 
-            <aside class="ad-space" aria-label="Advertisement">
+            <aside class="ad-space">
                 <h2>Advertisement</h2>
-                <!-- Custom Ad Space 2 -->
-                Your Ad Here
+                <div>Your Ad Here</div>
             </aside>
         </div>
     </main>
+
     <footer class="footer">
         <div class="footer-content">
             <p class="footer-text">© 2024 URL Redirector. All rights reserved.</p>
-            <nav class="footer-links" aria-label="Footer Navigation">
+            <nav class="footer-links">
                 <a href="#" class="footer-link">Terms</a>
                 <a href="#" class="footer-link">Privacy</a>
                 <a href="#" class="footer-link">Contact</a>
