@@ -6,8 +6,8 @@
 }
 
 :root {
-    --primary: #3b82f6;
-    --primary-dark: #2563eb;
+    --primary: #4f46e5;
+    --primary-dark: #4338ca;
     --secondary: #64748b;
     --accent: #f1f5f9;
     --text: #0f172a;
@@ -22,26 +22,29 @@ body {
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
     line-height: 1.6;
     color: var(--text);
-    background: var(--gradient);
+    background: 
+        radial-gradient(circle at top right, rgba(79, 70, 229, 0.1) 0%, transparent 50%),
+        radial-gradient(circle at bottom left, rgba(99, 102, 241, 0.1) 0%, transparent 50%),
+        var(--gradient);
     min-height: 100vh;
 }
 
 /* Hero Section */
 .hero {
     padding: 4rem 1rem;
-    background: 
-        radial-gradient(circle at top right, rgba(219, 234, 254, 0.8) 0%, transparent 60%),
-        radial-gradient(circle at bottom left, rgba(191, 219, 254, 0.8) 0%, transparent 60%),
-        var(--gradient);
     min-height: 100vh;
     display: flex;
     align-items: center;
+    position: relative;
+    overflow: hidden;
 }
 
 .container {
     max-width: 800px;
     margin: 0 auto;
     width: 100%;
+    position: relative;
+    z-index: 1;
 }
 
 /* Header Styles */
@@ -52,13 +55,14 @@ body {
 }
 
 .header h1 {
-    font-size: 4rem;
+    font-size: 4.5rem;
     font-weight: 800;
     background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
-    margin-bottom: 1rem;
-    line-height: 1.2;
+    margin-bottom: 1.5rem;
+    line-height: 1.1;
+    letter-spacing: -0.02em;
 }
 
 .subtitle {
@@ -66,17 +70,33 @@ body {
     color: var(--text-light);
     max-width: 600px;
     margin: 0 auto;
+    line-height: 1.4;
 }
 
 /* Card Styles */
 .card {
-    background: rgba(255, 255, 255, 0.9);
+    background: rgba(255, 255, 255, 0.95);
     border-radius: 24px;
-    box-shadow: var(--shadow-lg);
+    box-shadow: var(--shadow-lg),
+                0 0 0 1px rgba(255, 255, 255, 0.5) inset;
     padding: 2.5rem;
     backdrop-filter: blur(10px);
-    border: 1px solid rgba(255, 255, 255, 0.2);
     animation: fadeInUp 1s ease-out 0.2s backwards;
+    position: relative;
+}
+
+.card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: 24px;
+    padding: 2px;
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0.2));
+    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    pointer-events: none;
 }
 
 /* Mode Switch */
@@ -87,34 +107,58 @@ body {
     background: var(--accent);
     padding: 0.5rem;
     border-radius: 16px;
+    position: relative;
 }
 
 .mode-button {
     flex: 1;
     padding: 1.25rem;
     background: transparent;
-    border: 2px solid transparent;
+    border: none;
     border-radius: 12px;
     cursor: pointer;
-    transition: all 0.3s ease;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     font-weight: 600;
     color: var(--text-light);
     display: flex;
     align-items: center;
     justify-content: center;
     gap: 0.75rem;
+    position: relative;
+    overflow: hidden;
+}
+
+.mode-button::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: white;
+    border-radius: 12px;
+    opacity: 0;
+    transform: scale(0.8);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.mode-button.active::before {
+    opacity: 1;
+    transform: scale(1);
 }
 
 .mode-icon {
     font-size: 1.35rem;
+    position: relative;
+    z-index: 1;
+}
+
+.mode-button span {
+    position: relative;
+    z-index: 1;
 }
 
 .mode-button.active {
-    background: white;
     color: var(--primary);
-    border-color: var(--primary);
-    box-shadow: var(--shadow);
     transform: translateY(-1px);
+    box-shadow: var(--shadow);
 }
 
 /* Form Styles */
@@ -132,11 +176,11 @@ label {
 
 input, textarea {
     width: 100%;
-    padding: 1rem;
+    padding: 1rem 1.25rem;
     border: 2px solid var(--border);
     border-radius: 12px;
     font-size: 1rem;
-    transition: all 0.3s ease;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     background: var(--accent);
 }
 
@@ -144,18 +188,20 @@ input:focus, textarea:focus {
     outline: none;
     border-color: var(--primary);
     background: white;
-    box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.1);
+    box-shadow: 0 0 0 4px rgba(79, 70, 229, 0.1);
 }
 
 textarea {
     height: 120px;
     resize: vertical;
+    line-height: 1.5;
 }
 
 /* Preview Section */
 .preview-section {
     margin: 2rem 0;
     padding: 2rem 0;
+    border-top: 1px solid var(--border);
     animation: fadeIn 0.6s ease-out;
 }
 
@@ -172,7 +218,7 @@ textarea {
     overflow: hidden;
     box-shadow: var(--shadow);
     border: 1px solid var(--border);
-    transition: transform 0.3s ease;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .preview-card:hover {
@@ -224,7 +270,7 @@ textarea {
     cursor: pointer;
     font-size: 1.1rem;
     font-weight: 600;
-    transition: all 0.3s ease;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     position: relative;
     display: flex;
     align-items: center;
@@ -233,10 +279,23 @@ textarea {
     overflow: hidden;
 }
 
+.submit-button::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0));
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
 .submit-button:hover {
     background: var(--primary-dark);
     transform: translateY(-2px);
     box-shadow: var(--shadow);
+}
+
+.submit-button:hover::before {
+    opacity: 1;
 }
 
 .submit-button:disabled {
@@ -258,7 +317,7 @@ textarea {
 .result {
     margin-top: 2rem;
     padding-top: 2rem;
-    border-top: 2px solid var(--border);
+    border-top: 1px solid var(--border);
     animation: fadeIn 0.6s ease-out;
 }
 
@@ -280,6 +339,7 @@ textarea {
     font-size: 1rem;
     color: var(--text-light);
     padding: 1.25rem;
+    cursor: text;
 }
 
 .copy-button {
@@ -289,9 +349,20 @@ textarea {
     padding: 0 1.5rem;
     border-radius: 12px;
     font-weight: 600;
-    transition: all 0.3s ease;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     min-width: 120px;
     cursor: pointer;
+    position: relative;
+    overflow: hidden;
+}
+
+.copy-button::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: var(--primary);
+    opacity: 0;
+    transition: opacity 0.3s ease;
 }
 
 .copy-button:hover {
@@ -318,9 +389,10 @@ textarea {
     display: flex;
     align-items: center;
     gap: 0.75rem;
-    animation: slideIn 0.3s ease-out;
+    animation: slideIn 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     border-left: 4px solid var(--primary);
     min-width: 300px;
+    transform-origin: right;
 }
 
 .toast.success {
@@ -343,9 +415,10 @@ textarea {
 
 /* Footer Styles */
 .footer {
-    background: white;
+    background: rgba(255, 255, 255, 0.9);
     padding: 1.5rem;
     border-top: 1px solid var(--border);
+    backdrop-filter: blur(10px);
 }
 
 .footer-content {
@@ -373,10 +446,29 @@ textarea {
     text-decoration: none;
     font-size: 0.95rem;
     transition: color 0.3s ease;
+    position: relative;
+}
+
+.footer-link::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: -2px;
+    width: 100%;
+    height: 2px;
+    background: var(--primary);
+    transform: scaleX(0);
+    transform-origin: right;
+    transition: transform 0.3s ease;
 }
 
 .footer-link:hover {
     color: var(--primary);
+}
+
+.footer-link:hover::after {
+    transform: scaleX(1);
+    transform-origin: left;
 }
 
 /* Animations */
@@ -408,22 +500,22 @@ textarea {
 
 @keyframes slideIn {
     from {
-        transform: translateX(100%);
+        transform: translateX(100%) scale(0.5);
         opacity: 0;
     }
     to {
-        transform: translateX(0);
+        transform: translateX(0) scale(1);
         opacity: 1;
     }
 }
 
 @keyframes fadeOut {
     from {
-        transform: translateX(0);
+        transform: translateX(0) scale(1);
         opacity: 1;
     }
     to {
-        transform: translateX(100%);
+        transform: translateX(100%) scale(0.5);
         opacity: 0;
     }
 }
@@ -439,7 +531,7 @@ textarea {
     }
 
     .header h1 {
-        font-size: 2.5rem;
+        font-size: 2.75rem;
     }
 
     .subtitle {
